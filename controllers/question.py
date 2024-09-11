@@ -3,9 +3,11 @@ from config.config import questions_collection
 from utils.save_image import save_image
 from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
+from datetime import datetime, timezone
 
 def create_question(question, image):
-    res = questions_collection.insert_one({"question" : question})
+    now = datetime.fromisoformat(str(datetime.now(timezone.utc)))
+    res = questions_collection.insert_one({"question" : question, "answers": [], "answer_count": 0, "created_at": now.strftime("%Y.%m.%d / %I:%M %p")})
     id = str(res.inserted_id)
     
     file_location = save_image(id, image)
@@ -19,6 +21,7 @@ def create_question(question, image):
     
     return {
         "qid": id ,
+        "diagram_type": type,
         "rubric" : rubric}
 
 def submit_rubric(qid, rubric):
@@ -27,5 +30,16 @@ def submit_rubric(qid, rubric):
     }})
     
     return {
-        "nice"
+        "message": "Question added."
+    }
+    
+def get_questions():
+    questions = list(questions_collection.find())
+    
+    for question in questions:
+        if "_id" in question:
+            question["_id"] = str(question["_id"])
+    
+    return{
+        "questions": questions
     }
