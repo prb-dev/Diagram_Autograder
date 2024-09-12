@@ -5,9 +5,9 @@ from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
 from datetime import datetime, timezone
 
-def create_question(question, image):
+def create_question(question, image, deadline):
     now = datetime.fromisoformat(str(datetime.now(timezone.utc)))
-    res = questions_collection.insert_one({"question" : question, "answers": [], "answer_count": 0, "created_at": now.strftime("%Y.%m.%d / %I:%M %p")})
+    res = questions_collection.insert_one({"question" : question, "deadline": deadline, "answers": [], "answer_count": 0, "created_at": now.strftime("%Y.%m.%d / %I:%M %p")})
     id = str(res.inserted_id)
     
     file_location = save_image(id, image)

@@ -5,8 +5,8 @@ from models.rubric import Rubric
 questions_router = APIRouter()
 
 @questions_router.post("/questions/create")
-def add_question(question: str = Form(...), image: UploadFile = File(...)):
-    res = create_question(question, image)
+def add_question(question: str = Form(...), image: UploadFile = File(...), deadline: str = Form(...)):
+    res = create_question(question, image, deadline)
     return {
         "qid": res["qid"],
         "diagram_type": res["diagram_type"],
