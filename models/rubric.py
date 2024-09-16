@@ -8,6 +8,8 @@ class MarkRange(BaseModel):
 class Criteria(BaseModel):
     name: str
     marks_ranges: List[MarkRange]
+    sub_total: int
 
 class Rubric(BaseModel):
     criterias: List[Criteria]
+    total: int

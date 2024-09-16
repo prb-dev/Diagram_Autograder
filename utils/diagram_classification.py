@@ -5,7 +5,7 @@ def classify_diagram(image_path):
     model = YOLO("./ai_models/last.pt")  # load a custom model
 
     # Predict with the model
-    results = model(image_path)  # predict on an image
+    results = model(image_path)
 
     class_names = results[0].names
     probs = results[0].probs.tolist()
