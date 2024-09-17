@@ -4,6 +4,7 @@ from utils.save_image import save_image
 from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
 from datetime import datetime, timezone
+from utils.text_generation import generate_text
 
 def create_question(image):
     # res = questions_collection.insert_one({"question" : question, "deadline": deadline, "answers": [], "answer_count": 0, "created_at": now.strftime("%Y.%m.%d / %I:%M %p")})
@@ -26,9 +27,21 @@ def save_question_to_db(question):
     now = datetime.fromisoformat(str(datetime.now(timezone.utc)))
     
     res = questions_collection.insert_one({"question" : question.question, "deadline": question.deadline, "answers": [], "answer_count": 0, "created_at": now.strftime("%Y.%m.%d / %I:%M %p"), "diagram_type":question.diagram_type, "rubric": question.rubric.model_dump() })
+    id = str(res.inserted_id)
     
     return{
-        "message": "Question added."
+        "qid": id
+    }
+    
+def save_image_url(qid, url, diagram_type):
+    text = generate_text(url, diagram_type)
+    questions_collection.find_one_and_update({"_id": ObjectId(qid)}, {"$set":{
+        "correct_answer.image":url,
+        "correct_answer.text_representation": text
+    }})
+    
+    return{
+        "message": "Question published."
     }
     
 def get_questions():
