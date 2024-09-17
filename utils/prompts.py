@@ -1,5 +1,5 @@
 prompts = {
-    "class" : (
+    "class": (
         "Please generate a JSON object for the following class diagram. The JSON object should include:\n\n"
         "- `classnames`: A list of all class names in the diagram.\n"
         "- `attributes`: A list of attributes for each class, where each attribute has:\n"
@@ -15,10 +15,11 @@ prompts = {
         "  - `start`: The name of the starting class.\n"
         "  - `end`: The name of the ending class."
     ),
-    "er" : "Generate json object for this er diagram.",
-    "sequence" : "Generate json object for this sequence diagram.",
-    "usecase": "Generate json object for this er diagram."
+    "er": "Generate json object for this er diagram.",
+    "sequence": "Generate json object for this sequence diagram.",
+    "usecase": "Generate json object for this er diagram.",
 }
+
 
 def get_prompts(diagram_type):
     return prompts.get(diagram_type)
