@@ -12,6 +12,8 @@ numpy = "==1.26.4"
 pillow = "*"
 python-multipart = "*"
 gradio-client = "*"
+python-dotenv = "*"
+spacy = "==3.7"
 
 [dev-packages]
 
