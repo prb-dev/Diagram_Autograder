@@ -5,6 +5,7 @@ from controllers.question import (
     save_question_to_db,
     save_image_url,
     get_question_by_id,
+    get_question_ids,
 )
 from models.question import Question
 
@@ -33,6 +34,12 @@ def save_image(qid: str, url: str = Body(...), diagram_type: str = Body(...)):
 def retreive_questions():
     res = get_questions()
     return {"questions": res["questions"]}
+
+
+@questions_router.get("/questions/ids")
+def retreive_question_ids():
+    res = get_question_ids()
+    return {"qids": res["qids"]}
 
 
 @questions_router.get("/questions/{qid}")

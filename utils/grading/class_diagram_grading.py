@@ -69,13 +69,21 @@ def grade_access_modifiers(correct, student, rubric):
     valid_count = 0
     total_count = len(correct["attributes"]) + len(correct["methods"])
 
-    for correct_item in correct["attributes"] + correct["methods"]:
-        for student_item in student["attributes"] + student["methods"]:
-            if (
-                compare_classnames(correct_item["class"], student_item["class"])
-                and correct_item["accessmodifier"] == student_item["accessmodifier"]
-            ):
-                valid_count += 1
+    # Compare attributes
+    for correct_item, student_item in zip(correct["attributes"], student["attributes"]):
+        if (
+            compare_classnames(correct_item["class"], student_item["class"])
+            and correct_item["accessmodifier"] == student_item["accessmodifier"]
+        ):
+            valid_count += 1
+
+    # Compare methods
+    for correct_item, student_item in zip(correct["methods"], student["methods"]):
+        if (
+            compare_classnames(correct_item["class"], student_item["class"])
+            and correct_item["accessmodifier"] == student_item["accessmodifier"]
+        ):
+            valid_count += 1
 
     percentage = (valid_count / total_count) * 100
     mark = calculate_marks(rubric["criterias"][4], percentage)

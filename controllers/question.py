@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
 from datetime import datetime, timezone
 from utils.text_generation import generate_text
+import pytz
 
 
 def create_question(image):
@@ -17,7 +18,10 @@ def create_question(image):
 
 
 def save_question_to_db(question):
-    now = datetime.fromisoformat(str(datetime.now(timezone.utc)))
+    now = datetime.now(pytz.utc)
+    ist = pytz.timezone("Asia/Colombo")
+    ist_now = now.astimezone(ist)
+
     deadline = datetime.strptime(
         question.deadline[:24], "%a %b %d %Y %H:%M:%S"
     ).strftime("%m/%d/%Y %H:%M:%S")
@@ -28,7 +32,7 @@ def save_question_to_db(question):
             "deadline": str(deadline),
             "answers": [],
             "answer_count": 0,
-            "created_at": now.strftime("%Y.%m.%d / %I:%M %p"),
+            "created_at": ist_now.strftime("%Y.%m.%d / %I:%M %p"),
             "diagram_type": question.diagram_type,
             "rubric": question.rubric.model_dump(),
         }
@@ -54,10 +58,20 @@ def save_image_url(qid, url, diagram_type):
 
 
 def get_questions():
-    questions = list(questions_collection.find())
-
+    questions = list(
+        questions_collection.find(
+            {},
+            {
+                "question": 1,
+                "created_at": 1,
+                "diagram_type": 1,
+                "deadline": 1,
+                "answer_count": 1,
+            },
+        )
+    )
     for question in questions:
-        if "_id" in question:
+        if "_id" in question and isinstance(question["_id"], ObjectId):
             question["_id"] = str(question["_id"])
 
     return {"questions": questions}
@@ -69,3 +83,12 @@ def get_question_by_id(id):
     )
     res["_id"] = str(res["_id"])
     return {"question": res}
+
+
+def get_question_ids():
+    res = list(questions_collection.find({}, {"_id": 1}))
+
+    for obj in res:
+        obj["_id"] = str(obj["_id"])
+
+    return {"qids": res}
