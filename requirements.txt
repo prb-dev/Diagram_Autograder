@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pymongo
+ultralytics==8.0.58
+numpy==1.26.4
+pillow
+python-multipart
+gradio-client
+python-dotenv
+spacy==3.7
+pytz
