@@ -1,0 +1,26 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull the docker image
+      run: sudo docker pull it21288630/da_image:latest
+
+    - name: Delete the old docker container
+      run: sudo docker rm -f da_image_container || true
+
+    - name: Run the docker container
+      env:
+        MONGODB: ${{secrets.MONGODB}}
+        HF_TOKEN: ${{secrets.HF_TOKEN}}
+      run: sudo docker run -d -p 8000:8000 -e MONGODB=$MONGODB -e HF_TOKEN=$HF_TOKEN --name da_image_container it21288630/da_image
