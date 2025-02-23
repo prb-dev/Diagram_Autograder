@@ -14,11 +14,10 @@ def class_template():
 def use_case_template():
     return {
         "criterias": [
-            "classnames",
-            "attributes",
-            "methods",
-            "relationships",
-            "access modifiers",
+            "actors",
+            "usecases",
+            "actor relationships",
+            "usecase relationships",
         ],
         "ranges": [[0, 20], [21, 40], [41, 60], [61, 80], [81, 100]],
     }
