@@ -13,7 +13,7 @@ questions_router = APIRouter()
 
 
 @questions_router.post("/questions/create")
-def add_question(question: str):
+def add_question(question: str = Body(...)):
     res = create_question(question)
     return {"diagram_type": res["diagram_type"], "rubric": res["rubric"]}
 

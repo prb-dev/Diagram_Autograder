@@ -18,7 +18,7 @@ prompts = {
     "er": "Generate json object for this er diagram.",
     "sequence": "Generate json object for this sequence diagram.",
     "usecase": (
-        "Please generate a JSON object for the following use case diagram. The JSON object should include:\n\n"
+        "Please generate a JSON object as the response for the following use case diagram. The JSON object should include:\n\n"
         "- `actors`: A list of all actors in the diagram.\n"
         '  Example: `actors`: ["a", "b"]\n'
         "- `usecases`: A list of all use cases in the diagram.\n"
