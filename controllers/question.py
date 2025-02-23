@@ -1,9 +1,8 @@
 from utils.diagram_classification import classify_diagram
 from config.config import questions_collection
-from utils.save_image import save_image
 from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
-from datetime import datetime, timezone
+from datetime import datetime
 from utils.text_generation import generate_text
 import pytz
 
