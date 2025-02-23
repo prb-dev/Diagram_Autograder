@@ -37,6 +37,7 @@ def save_question_to_db(question):
             "rubric": question.rubric.model_dump(),
         }
     )
+
     id = str(res.inserted_id)
 
     return {"qid": id}
