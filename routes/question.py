@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form, Body
+from fastapi import APIRouter, Body
 from controllers.question import (
     create_question,
     get_questions,
@@ -13,8 +13,8 @@ questions_router = APIRouter()
 
 
 @questions_router.post("/questions/create")
-def add_question(image: UploadFile = File(...)):
-    res = create_question(image)
+def add_question(question: str):
+    res = create_question(question)
     return {"diagram_type": res["diagram_type"], "rubric": res["rubric"]}
 
 

@@ -8,12 +8,9 @@ from utils.text_generation import generate_text
 import pytz
 
 
-def create_question(image):
-    file_location = save_image(image)
-    type = classify_diagram(file_location)
-
+def create_question(question):
+    type = classify_diagram(question)
     rubric = get_marking_rubric(type)()
-
     return {"diagram_type": type, "rubric": rubric}
 
 
