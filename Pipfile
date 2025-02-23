@@ -12,6 +12,7 @@ gradio-client = "*"
 python-dotenv = "*"
 spacy = "==3.7"
 pytz = "*"
+numpy = "==1.26.4"
 
 [dev-packages]
 

@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 pymongo
+numpy==1.26.4
 python-multipart
 gradio-client
 python-dotenv
