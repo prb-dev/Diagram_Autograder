@@ -71,3 +71,15 @@ def get_answers(qid):
             answer["_id"] = str(answer["_id"])
 
     return {"answers": answers}
+
+
+def get_answer(qid, aid):
+    answer = answers_collection.find_one(
+        {"_id": ObjectId(aid), "question_id": qid}, {"answer.text_representation": 0}
+    )
+
+    print(answer)
+
+    answer["_id"] = str(answer["_id"])
+
+    return {"answer": answer}
