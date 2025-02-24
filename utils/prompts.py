@@ -49,8 +49,7 @@ prompts = {
         "  - `primary_key`: The primary key that uniquely identifies the entity (e.g., Student_ID).\n"
         "  - `attributes`: A list of attributes for the entity (e.g., Name, Age).\n"
         "- `relationships`: A list of relationships between entities, where each relationship has:\n"
-        "  - `start`: The name of the starting entity (e.g., Student).\n"
-        "  - `end`: The name of the ending entity (e.g., Course).\n"
+        '  - `entities`: A list of the entities involved in the relationship (e.g., ["Student", "Course"]).'
         "  - `name`: The name of the relationship (e.g., Enrolls In).\n"
         "  - `cardinality`: The cardinality of the relationship (e.g., one-to-many, many-to-many)."
     ),
