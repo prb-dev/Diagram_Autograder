@@ -78,8 +78,6 @@ def get_answer(qid, aid):
         {"_id": ObjectId(aid), "question_id": qid}, {"answer.text_representation": 0}
     )
 
-    print(answer)
-
     answer["_id"] = str(answer["_id"])
 
     return {"answer": answer}

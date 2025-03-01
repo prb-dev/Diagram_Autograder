@@ -22,6 +22,7 @@ def grade_actors(correct, student, rubric):
         for s_aname in student["actors"]:
             if compare_actors(c_aname, s_aname):
                 valid_actor_count += 1
+                break
 
     percentage = (valid_actor_count / total_actors) * 100
     mark = calculate_marks(rubric["criterias"][0], percentage)
@@ -37,6 +38,7 @@ def grade_usecases(correct, student, rubric):
         for s_uname in student["usecases"]:
             if compare_usecases(c_uname, s_uname):
                 valid_usecase_count += 1
+                break
 
     percentage = (valid_usecase_count / total_usecases) * 100
     mark = calculate_marks(rubric["criterias"][1], percentage)
@@ -45,19 +47,45 @@ def grade_usecases(correct, student, rubric):
 
 
 def grade_actor_relationships(correct, student, rubric):
-    valid_count = 0
-    total_relationships = len(correct["actor_relationships"])
+    valid_relationship_count = 0
+    total_relationships = len(correct["actor_relationships"].get("generalization", []))
 
     for c_rel in correct["actor_relationships"]:
         for s_rel in student["actor_relationships"]:
-            if (
-                c_rel["type"] == s_rel["type"]
-                and compare_classnames(c_rel["start"], s_rel["start"])
-                and compare_classnames(c_rel["end"], s_rel["end"])
+            if compare_actors(c_rel["start"], s_rel["start"]) and compare_actors(
+                c_rel["end"], s_rel["end"]
             ):
-                valid_count += 1
+                valid_relationship_count += 1
 
-    percentage = (valid_count / total_relationships) * 100
+    if total_relationships > 0:
+        percentage = (valid_relationship_count / total_relationships) * 100
+    else:
+        percentage = 100
+    mark = calculate_marks(rubric["criterias"][2], percentage)
+
+    return {"correctness": percentage, "mark": mark}
+
+
+def grade_usecase_relationships(correct, student, rubric):
+    valid_relationship_count = 0
+    total_relationships = (
+        len(correct["usecase_relationships"].get("generalization", []))
+        + len(correct["usecase_relationships"].get("includes", []))
+        + len(correct["usecase_relationships"].get("excludes", []))
+    )
+
+    for key in correct["usecase_relationships"]:
+        for c_rel in correct["usecase_relationships"][key]:
+            for s_rel in student["usecase_relationships"][key]:
+                if compare_usecases(
+                    c_rel["start"], s_rel["start"]
+                ) and compare_usecases(c_rel["end"], s_rel["end"]):
+                    valid_relationship_count += 1
+
+    if total_relationships > 0:
+        percentage = (valid_relationship_count / total_relationships) * 100
+    else:
+        percentage = 100
     mark = calculate_marks(rubric["criterias"][3], percentage)
 
     return {"correctness": percentage, "mark": mark}
@@ -73,3 +101,19 @@ def calculate_marks(rubric_criteria, percentage):
 def calculate_total(marks):
     total = sum(criteria["mark"] for criteria in marks.values())
     return total
+
+
+def get_usecase_marks(correct, student, rubric):
+    marks = {}
+
+    # Grading process and populating the marks dictionary
+    marks["actors"] = grade_actors(correct, student, rubric)
+    marks["usecases"] = grade_usecases(correct, student, rubric)
+    marks["actor_relationships"] = grade_actor_relationships(correct, student, rubric)
+    marks["usecase_relationships"] = grade_usecase_relationships(
+        correct, student, rubric
+    )
+
+    marks["total"] = calculate_total(marks)
+
+    return marks

@@ -1,19 +1,15 @@
 from utils.diagram_classification import classify_diagram
 from config.config import questions_collection
-from utils.save_image import save_image
 from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
-from datetime import datetime, timezone
+from datetime import datetime
 from utils.text_generation import generate_text
 import pytz
 
 
-def create_question(image):
-    file_location = save_image(image)
-    type = classify_diagram(file_location)
-
+def create_question(question):
+    type = classify_diagram(question)
     rubric = get_marking_rubric(type)()
-
     return {"diagram_type": type, "rubric": rubric}
 
 
@@ -80,7 +76,15 @@ def get_questions():
 
 def get_question_by_id(id):
     res = questions_collection.find_one(
-        {"_id": ObjectId(id)}, {"question": 1, "deadline": 1}
+        {"_id": ObjectId(id)},
+        {
+            "question": 1,
+            "deadline": 1,
+            "correct_answer.image": 1,
+            "rubric": 1,
+            "answer_count": 1,
+            "diagram_type": 1,
+        },
     )
     res["_id"] = str(res["_id"])
     return {"question": res}
