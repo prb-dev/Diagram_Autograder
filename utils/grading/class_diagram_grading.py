@@ -40,7 +40,10 @@ def grade_attributes_methods(correct, student, category, rubric):
                 ):
                     valid_count += 1
 
-    percentage = (valid_count / total_count) * 100
+    if total_count > 0:
+        percentage = (valid_count / total_count) * 100
+    else:
+        percentage = 100
     mark = calculate_marks(rubric, percentage)
 
     return {"correctness": percentage, "mark": mark}

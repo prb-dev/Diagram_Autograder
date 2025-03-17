@@ -13,6 +13,7 @@ python-dotenv = "*"
 spacy = "==3.7"
 pytz = "*"
 numpy = "==1.26.4"
+huggingface-hub = "*"
 
 [dev-packages]
 
