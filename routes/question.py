@@ -6,6 +6,7 @@ from controllers.question import (
     save_image_url,
     get_question_by_id,
     get_question_ids,
+    delete_question_by_id,
 )
 from models.question import Question
 
@@ -46,3 +47,9 @@ def retreive_question_ids():
 def retreive_question_by_id(qid: str):
     res = get_question_by_id(qid)
     return {"question": res["question"]}
+
+
+@questions_router.delete("/questions/{qid}")
+def delete_question(qid: str):
+    res = delete_question_by_id(qid)
+    return {"message": res["message"]}
