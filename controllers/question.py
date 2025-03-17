@@ -80,7 +80,7 @@ def get_question_by_id(id):
         {
             "question": 1,
             "deadline": 1,
-            "correct_answer.image": 1,
+            "correct_answer": 1,
             "rubric": 1,
             "answer_count": 1,
             "diagram_type": 1,
