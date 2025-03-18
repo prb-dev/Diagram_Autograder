@@ -79,3 +79,13 @@ def get_answer(qid, aid):
     answer["_id"] = str(answer["_id"])
 
     return {"answer": answer}
+
+
+def get_answer_by_student_id(sid):
+    answers = list(answers_collection.find({"user_id": sid}))
+
+    for answer in answers:
+        if "_id" in answer and isinstance(answer["_id"], ObjectId):
+            answer["_id"] = str(answer["_id"])
+
+    return {"answers": answers}
