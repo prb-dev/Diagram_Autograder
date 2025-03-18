@@ -1,5 +1,6 @@
 from utils.diagram_classification import classify_diagram
 from config.config import questions_collection
+from config.config import answers_collection
 from bson.objectid import ObjectId
 from utils.marking_rubrics import get_marking_rubric
 from datetime import datetime
@@ -97,3 +98,9 @@ def get_question_ids():
         obj["_id"] = str(obj["_id"])
 
     return {"qids": res}
+
+
+def delete_question_by_id(qid):
+    questions_collection.find_one_and_delete({"_id": ObjectId(qid)})
+    answers_collection.delete_many({"question_id": qid})
+    return {"message": "Question deleted"}
