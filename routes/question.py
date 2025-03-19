@@ -48,7 +48,7 @@ def save_image(
 
 @questions_router.get("/questions")
 def retreive_questions(request: Request):
-    verify_token(request)
+    # verify_token(request)
     res = get_questions()
     return {"questions": res["questions"]}
 
