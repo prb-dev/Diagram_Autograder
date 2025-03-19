@@ -88,4 +88,12 @@ def get_answer_by_student_id(sid):
         if "_id" in answer and isinstance(answer["_id"], ObjectId):
             answer["_id"] = str(answer["_id"])
 
+        question = questions_collection.find_one(
+            {"_id": ObjectId(answer["question_id"])}, {"answers": 0}
+        )
+
+        question["_id"] = str(question["_id"])
+
+        answer["question"] = question
+
     return {"answers": answers}
