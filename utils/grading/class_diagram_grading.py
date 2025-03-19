@@ -18,7 +18,11 @@ def grade_classnames(correct, student, rubric):
             if compare_classnames(c_cname, s_cname):
                 valid_class_count += 1
 
-    percentage = (valid_class_count / total_classes) * 100
+    if total_classes > 0:
+        percentage = (valid_class_count / total_classes) * 100
+    else:
+        percentage = 100
+
     mark = calculate_marks(rubric["criterias"][0], percentage)
 
     return {"correctness": percentage, "mark": mark}
@@ -44,6 +48,7 @@ def grade_attributes_methods(correct, student, category, rubric):
         percentage = (valid_count / total_count) * 100
     else:
         percentage = 100
+
     mark = calculate_marks(rubric, percentage)
 
     return {"correctness": percentage, "mark": mark}
@@ -62,7 +67,11 @@ def grade_relationships(correct, student, rubric):
             ):
                 valid_count += 1
 
-    percentage = (valid_count / total_relationships) * 100
+    if total_relationships > 0:
+        percentage = (valid_count / total_relationships) * 100
+    else:
+        percentage = 100
+
     mark = calculate_marks(rubric["criterias"][3], percentage)
 
     return {"correctness": percentage, "mark": mark}
@@ -88,7 +97,11 @@ def grade_access_modifiers(correct, student, rubric):
         ):
             valid_count += 1
 
-    percentage = (valid_count / total_count) * 100
+    if total_count > 0:
+        percentage = (valid_count / total_count) * 100
+    else:
+        percentage = 100
+
     mark = calculate_marks(rubric["criterias"][4], percentage)
 
     return {"correctness": percentage, "mark": mark}
