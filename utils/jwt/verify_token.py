@@ -9,7 +9,7 @@ secret = os.getenv("JWT_SECRET")
 
 def verify_token(request: Request):
     try:
-        token = request.cookies.get("token")
+        token = request.cookies.get("autograder_token")
         if not token:
             raise HTTPException(status_code=401, detail="Token not found")
         payload = jwt.decode(token, secret, algorithms=["HS256"])
