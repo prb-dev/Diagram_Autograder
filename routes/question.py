@@ -63,7 +63,7 @@ def retreive_question_ids(request: Request):
 
 @questions_router.get("/questions/{qid}")
 def retreive_question_by_id(request: Request, qid: str):
-    verify_token(request)
+    # verify_token(request)
     res = get_question_by_id(qid)
     return {"question": res["question"]}
 
