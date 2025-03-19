@@ -15,6 +15,11 @@ from models.question import Question
 questions_router = APIRouter()
 
 
+@questions_router.get("/")
+def health():
+    return {"message": "OK"}
+
+
 @questions_router.post("/questions/create")
 def add_question(request: Request, question: str = Body(...)):
     payload = verify_token(request)
